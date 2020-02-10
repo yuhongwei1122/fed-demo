@@ -1,0 +1,24 @@
+body {
+  margin: 0;
+  font-family: -apple-system, PingFangSC-Regular, "Microsoft Yahei",BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ant-btn-sm{
+  padding: 0px 8px 5px !important;
+}
+#root{
+  /* max-width: 1440px; */
+  min-width: 900px;
+  /* margin: 0 auto;
+  position: relative; */
+}
+
+*::selection{
+  background: rgba(145,195,255,0.6) !important;
+  color: inherit !important;
+}
+
