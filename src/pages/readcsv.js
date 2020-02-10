@@ -16,6 +16,7 @@ let upIndex = 0;
 let paraIndex = 0;//最大420
 let barIndex = 0;
 let chartObj = {};
+const baseUrl = process.env.NODE_ENV === "development" ? '' : 'https://yuhongwei1122.github.io/fed-demo'
 export default function() {
     const [deviceData, setDeviceData] = React.useState({});
     const [selectDevice,setSelectDevice] = useState('全部');//设备选择
@@ -25,7 +26,7 @@ export default function() {
     const [detailName, setDetailName] = useState('余杭·燃气蒸汽锅炉');//显示详情的设备
     const [goon, setGoon] = useState(false);
     async function getData(filename) {
-        const response = await fetch('https://yuhongwei1122.github.io/fed-demo/data/'+filename+'.csv')
+        const response = await fetch(baseUrl+'/data/'+filename+'.csv')
         const reader = response.body.getReader()
         const result = await reader.read() // raw array
         const decoder = new TextDecoder('utf-8')
@@ -823,7 +824,7 @@ const countOccurences = (arr, value) => {
 const selectBarOption = (deviceData,modal,end) => { 
     const dataValue = deviceData[modal].slice(-end);
     const oneData = dataValue.slice(-end).join(',').replace(/3/g,'0').split(',');
-    const twoData = dataValue.slice(-end).join(',').replace(/1/g,'0').split(',');
+    const twoData = dataValue.slice(-end).join(',').replace(/1/g,'0').replace(/3/g,'1').split(',');
     // console.log(oneData.join(','));
     // console.log(twoData.join(','));
     return {
@@ -1134,7 +1135,7 @@ const getRunParamsOption = (params,end,deviceData) => {
 const getRunBarOption = (params,start,end,deviceData) => {
     const dataValue = deviceData[params] || [];
     const oneData = dataValue.slice(start,end).join(',').replace(/3/g,'0').split(',');
-    const twoData = dataValue.slice(start,end).join(',').replace(/1/g,'0').split(',');
+    const twoData = dataValue.slice(start,end).join(',').replace(/1/g,'0').replace(/3/g,'1').split(',');
     return {
         xAxis:{
             data:deviceData['time'].slice(start,end)

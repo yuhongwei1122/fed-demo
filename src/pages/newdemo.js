@@ -848,12 +848,12 @@ const selectBarOption = (deviceData,modal,end) => {
         dataValue = modalData.slice(upstart,upend);
         time = time.slice(upstart,upend);
         oneData = dataValue.slice(upstart,upend).join(',').replace(/3/g,'0').split(',');
-        twoData = dataValue.slice(upstart,upend).join(',').replace(/1/g,'0').split(',');
+        twoData = dataValue.slice(upstart,upend).join(',').replace(/1/g,'0').replace(/3/g,'1').split(',');
     }else{
         dataValue = modalData.slice(-end);
         time = time.slice(-end);
         oneData = dataValue.slice(-end).join(',').replace(/3/g,'0').split(',');
-        twoData = dataValue.slice(-end).join(',').replace(/1/g,'0').split(',');
+        twoData = dataValue.slice(-end).join(',').replace(/1/g,'0').replace(/3/g,'1').split(',');
     }
     return {
         xAxis: {
@@ -1163,7 +1163,7 @@ const getRunParamsOption = (params,end,deviceData) => {
 const getRunBarOption = (params,start,end,deviceData) => {
     const dataValue = deviceData[params] || [];
     const oneData = dataValue.slice(start,end).join(',').replace(/3/g,'0').split(',');
-    const twoData = dataValue.slice(start,end).join(',').replace(/1/g,'0').split(',');
+    const twoData = dataValue.slice(start,end).join(',').replace(/1/g,'0').replace(/3/g,'1').split(',');
     return {
         xAxis:{
             data:deviceData['time'].slice(start,end)
