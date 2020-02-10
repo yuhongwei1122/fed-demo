@@ -25,7 +25,7 @@ export default function() {
     const [detailName, setDetailName] = useState('余杭·燃气蒸汽锅炉');//显示详情的设备
     const [goon, setGoon] = useState(false);
     async function getData(filename) {
-        const response = await fetch('/data/'+filename+'.csv')
+        const response = await fetch('https://yuhongwei1122.github.io/fed-demo/data/'+filename+'.csv')
         const reader = response.body.getReader()
         const result = await reader.read() // raw array
         const decoder = new TextDecoder('utf-8')
