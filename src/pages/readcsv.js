@@ -144,28 +144,19 @@ export default function() {
                     chartObj['twoParamsChart'+index].setOption(getRunParamsOption('PAs0_abnormal',420,deviceData[device]));
                 });
             }else{
-                deviceArray.map((device,index)=>{
-                    chartObj['oneParamsChart'+index].setOption(getRunParamsOption('Ts0_abnormal',pend,deviceData[device]));
-                    chartObj['twoParamsChart'+index].setOption(getRunParamsOption('PAs0_abnormal',pend,deviceData[device]));
-                    chartObj['oneLearnChart'+index].setOption(getRunBarOption('fed_fix',start,end,deviceData[device]));
-                    chartObj['oneLocalChart'+index].setOption(getRunBarOption('local_fix',start,end,deviceData[device]));
-                });
-                // if(detailFlag){
-                //     console.log('弹窗显示变化');
-                //     ['fed_fix','local_fix','preventive_fix','corrective_fix'].map((name,index)=>{
-                //         chartObj['oneModalChart'+index].setOption(getRunBarOption(name,start,end,deviceData[detailName]));
-                //     });
-                //     ['PAs0_abnormal','Ts0_abnormal','TsPreOut_abnormal','TpreIn_abnormal','Texh_abnormal','PAw_abnormal','TsEcoOut_abnormal'].map((name,index)=>{
-                //         chartObj['oneModalParamsChart'+index].setOption(getRunParamsOption(name,pend,deviceData[detailName]));
-                //     })
-                // }
+                
                 const colors = ['#FEB927','#B45FD7','#219FFF','#01C5D1'];
                 
                 const seriseData = ['corrective_profit','preventive_profit','local_profit','fed_profit'].map((name,index)=>{
+                    // const temp = end < 1000 ?{yAxis: deviceData[selectDevice][name][end-1],
+                    //     x: upIndex*COMMRUNSTEP} :{yAxis: deviceData[selectDevice][name][end-1],
+                    //         // xAxis: deviceData[selectDevice]['time'][end-1],
+                    //         x: '93%',};
                     const temp = end < 1000 ?{yAxis: deviceData[selectDevice][name][end-1],
-                        x: upIndex*COMMRUNSTEP} :{yAxis: deviceData[selectDevice][name][end-1],
-                            // xAxis: deviceData[selectDevice]['time'][end-1],
-                            x: '93%',};
+                        xAxis: deviceData[selectDevice]['time'][end-2],} :{yAxis: deviceData[selectDevice][name][end-1],
+                                xAxis: deviceData[selectDevice]['time'][end-1],
+                                // x: '93%',
+                            };
                     return {
                         sampling:'average',
                         animationEasing:'quarticInOut',
@@ -210,7 +201,14 @@ export default function() {
                     },
                     series: seriseData
                 });
-                
+                setTimeout(()=>{
+                    deviceArray.map((device,index)=>{
+                        chartObj['oneParamsChart'+index].setOption(getRunParamsOption('Ts0_abnormal',pend,deviceData[device]));
+                        chartObj['twoParamsChart'+index].setOption(getRunParamsOption('PAs0_abnormal',pend,deviceData[device]));
+                        chartObj['oneLearnChart'+index].setOption(getRunBarOption('fed_fix',start,end,deviceData[device]));
+                        chartObj['oneLocalChart'+index].setOption(getRunBarOption('local_fix',start,end,deviceData[device]));
+                    });
+                },0);
                 upIndex++;
                 setNowIndex((upIndex*COMMRUNSTEP+COMMRUNSTEP)-1);
             }
