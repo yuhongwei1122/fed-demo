@@ -6,14 +6,14 @@ import '../App.scss';
 import pic from '../images/pic.png';
 import LOGO from '../images/ic-logo.png';
 const deviceArray = ['余杭·燃气蒸汽锅炉','廊坊·燃气蒸汽锅炉','长沙·燃气蒸汽锅炉','广州·燃气蒸汽锅炉'];
-const GBName = {TsPreOut_abnormal:'冷凝器出口温度(℃)',TpreIn_abnormal:'冷凝器进口烟温(℃)',Texh_abnormal:'锅炉排烟温度(℃)',PAw_abnormal:'给水入口压力(Mpa)',TsEcoOut_abnormal:'节能器出口温度(℃)',PAs0_abnormal:'蒸汽压力(Mpa)',Ts0_abnormal:'蒸汽温度(℃)'};
-const COMMRUNSTEP = 20;
+const GBName = {Ffuel:'燃气耗量(m³)',Fs:'蒸汽产量(t)'};
+const COMMRUNSTEP = 10;
 let profileChart = null;
 let intervalFun = null;
 let paraIntervalFun = null;
 let barIntervalFun = null;
 let upIndex = 0;
-let paraIndex = 0;//最大420
+let paraIndex = 0;//最大200
 let barIndex = 0;
 let chartObj = {};
 const baseUrl = process.env.NODE_ENV === "development" ? '' : 'https://yuhongwei1122.github.io/fed-demo'
@@ -69,13 +69,13 @@ export default function() {
             getData(profileFileName).then((res)=>{
                 deviceResult[device] = Object.assign(deviceResult[device], res);
                 console.log(res);
-                showLeftLearnCharts('oneLearnChart'+index,'oneLearnChart'+index,device,'fed_fix',res,1000);
-                showLeftLearnCharts('oneLocalChart'+index,'oneLocalChart'+index,device,'local_fix',res,1000);
+                showLeftLearnCharts('oneLearnChart'+index,'oneLearnChart'+index,device,'fed_fix',res,500);
+                showLeftLearnCharts('oneLocalChart'+index,'oneLocalChart'+index,device,'local_fix',res,500);
             });
             getData(paramsFileName).then((res)=>{
                 deviceResult[device] = Object.assign(deviceResult[device], res);
-                showParamsCharts('oneParamsChart'+index,'oneParamsChart'+index,device,'Ts0_abnormal',res,1);
-                showParamsCharts('twoParamsChart'+index,'twoParamsChart'+index,device,'PAs0_abnormal',res,2);
+                showParamsCharts('oneParamsChart'+index,'oneParamsChart'+index,device,'Ffuel',res,1);
+                showParamsCharts('twoParamsChart'+index,'twoParamsChart'+index,device,'Fs',res,2);
             });
         });
         getData('allprofit').then((res)=>{
@@ -98,9 +98,9 @@ export default function() {
         // if(!runFlag){
             setTimeout(()=>{
                 ['fed_fix','local_fix','preventive_fix','corrective_fix'].map((name,index)=>{
-                    showLeftLearnCharts('oneModalChart'+index,'oneModalChart'+index,device,name,deviceData[device],1000);
+                    showLeftLearnCharts('oneModalChart'+index,'oneModalChart'+index,device,name,deviceData[device],500);
                 });
-                ['PAs0_abnormal','Ts0_abnormal','TsPreOut_abnormal','TpreIn_abnormal','Texh_abnormal','PAw_abnormal','TsEcoOut_abnormal'].map((name,index)=>{
+                ['Ffuel','Fs'].map((name,index)=>{
                     showParamsCharts('oneModalParamsChart'+index,'oneModalParamsChart'+index,device,name,deviceData[device],1);
                 })
             },100);
@@ -121,18 +121,18 @@ export default function() {
         setGoon(false);
         intervalFun = setInterval(() =>{
             const end = upIndex*COMMRUNSTEP+COMMRUNSTEP;
-            const start = end < 1000 ? 0 : end - 990;
+            const start = end < 500 ? 0 : end - 490;
             // console.log(deviceData[selectDevice]['time'][end-1],deviceData[selectDevice]['corrective'][end-1]);
-            const maxValue = Math.ceil(Math.max.apply(null, deviceData[selectDevice]['fed_profit'].slice(start,end < 1000 ? 1000 : end)));
+            const maxValue = Math.ceil(Math.max.apply(null, deviceData[selectDevice]['fed_profit'].slice(start,end < 500 ? 500 : end)));
             const minValue = Math.floor(Math.min.apply(null,deviceData[selectDevice]['corrective_profit'].slice(start < 500 ? 0 : start,end)));
             const pend = paraIndex*(COMMRUNSTEP-5);
-            if(paraIndex >= 420/(COMMRUNSTEP-5)){
+            if(paraIndex >= 200/(COMMRUNSTEP-5)){
                 paraIndex = 0;
             }else{
                 paraIndex ++;
             }
             console.log(start,end);
-            if(upIndex == 8000/(COMMRUNSTEP)){
+            if(upIndex == 4000/(COMMRUNSTEP)){
                 clearInterval(intervalFun);
                 clearInterval(paraIntervalFun);
                 clearInterval(barIntervalFun);
@@ -140,8 +140,8 @@ export default function() {
                 upIndex = 0;
                 paraIndex = 0;
                 deviceArray.map((device,index)=>{
-                    chartObj['oneParamsChart'+index].setOption(getRunParamsOption('Ts0_abnormal',420,deviceData[device]));
-                    chartObj['twoParamsChart'+index].setOption(getRunParamsOption('PAs0_abnormal',420,deviceData[device]));
+                    chartObj['oneParamsChart'+index].setOption(getRunParamsOption('Ffuel',200,deviceData[device]));
+                    chartObj['twoParamsChart'+index].setOption(getRunParamsOption('Fs',200,deviceData[device]));
                 });
             }else{
                 
@@ -152,7 +152,7 @@ export default function() {
                     //     x: upIndex*COMMRUNSTEP} :{yAxis: deviceData[selectDevice][name][end-1],
                     //         // xAxis: deviceData[selectDevice]['time'][end-1],
                     //         x: '93%',};
-                    const temp = end < 1000 ?{yAxis: deviceData[selectDevice][name][end-1],
+                    const temp = end < 500 ?{yAxis: deviceData[selectDevice][name][end-1],
                         xAxis: deviceData[selectDevice]['time'][end-2],} :{yAxis: deviceData[selectDevice][name][end-1],
                                 xAxis: deviceData[selectDevice]['time'][end-1],
                                 // x: '93%',
@@ -193,7 +193,7 @@ export default function() {
                         // interval: (maxValue - minValue)/3
                     },
                     xAxis:{
-                        data:deviceData[selectDevice]['time'].slice(start,end < 1000 ? 1000 :end),
+                        data:deviceData[selectDevice]['time'].slice(start,end < 500 ? 500 :end),
                         // splitNumber:5,
                         axisLabel:{
                             interval:250
@@ -203,8 +203,8 @@ export default function() {
                 });
                 setTimeout(()=>{
                     deviceArray.map((device,index)=>{
-                        chartObj['oneParamsChart'+index].setOption(getRunParamsOption('Ts0_abnormal',pend,deviceData[device]));
-                        chartObj['twoParamsChart'+index].setOption(getRunParamsOption('PAs0_abnormal',pend,deviceData[device]));
+                        chartObj['oneParamsChart'+index].setOption(getRunParamsOption('Ffuel',pend,deviceData[device]));
+                        chartObj['twoParamsChart'+index].setOption(getRunParamsOption('Fs',pend,deviceData[device]));
                         chartObj['oneLearnChart'+index].setOption(getRunBarOption('fed_fix',start,end,deviceData[device]));
                         chartObj['oneLocalChart'+index].setOption(getRunBarOption('local_fix',start,end,deviceData[device]));
                     });
@@ -347,7 +347,7 @@ export default function() {
                                         <Row className='item-bottom'>
                                             <Col span={12}>
                                                 <div className='small-charts'>
-                                                <div className='small-charts-left'>蒸汽压力(Pa)</div>
+                                                <div className='small-charts-left'>燃气耗量(m³)</div>
                                                     <div className='small-charts-right' style={{paddingRight:10}}>
                                                         <div id={'oneParamsChart'+index} style={{width:130,height:40}}></div>
                                                     </div>
@@ -355,7 +355,7 @@ export default function() {
                                             </Col>
                                             <Col span={12}>
                                                 <div className='small-charts'>
-                                                <div className='small-charts-left' style={{paddingLeft:20,width:100}}>蒸汽温度(℃)</div>
+                                                <div className='small-charts-left' style={{paddingLeft:20,width:100}}>蒸汽产量(t)</div>
                                                 <div className='small-charts-right'>
                                                     <div id={'twoParamsChart'+index} style={{width:130,height:40}}></div>
                                                 </div>
@@ -790,12 +790,12 @@ export default function() {
                         </Row>
                         <Row className='item-bottom'>
                             {
-                                ['PAs0_abnormal','Ts0_abnormal','TsPreOut_abnormal','TpreIn_abnormal','Texh_abnormal','PAw_abnormal','TsEcoOut_abnormal'].map((paramKey,index)=>{
-                                    return <Col key={paramKey} span={8} style={{margin:'10px 0px'}}>
+                                ['Ffuel','Fs'].map((paramKey,index)=>{
+                                    return <Col key={paramKey} span={12} style={{margin:'10px 0px'}}>
                                         <div className='small-charts'>
                                             <div className='small-charts-left' style={{transform:'scale(0.9)',width:120}}>{GBName[paramKey]}</div>
                                             <div className='small-charts-right' style={{paddingRight:10}}>
-                                            <div id={'oneModalParamsChart'+index} style={{width:100,height:36}}></div>
+                                            <div id={'oneModalParamsChart'+index} style={{width:170,height:52}}></div>
                                             </div>
                                         </div>
                                     </Col>
@@ -865,7 +865,7 @@ const selectParamsCharts = (data,params,colorType) => {
         xAxis: {
           type: 'category',
           show: false,
-          data: Array.from(new Array(420).keys()),
+          data: Array.from(new Array(200).keys()),
         },
         color:colorType === 1 ? ['#80D57A','#4D84FF'] : ['#4D84FF','#80D57A'],
         grid:{
@@ -911,7 +911,7 @@ const allChartOption = (data) => {
                 animation: false
             },
             formatter:function(params)  { 
-                var relVal = "第"+Math.ceil(params[0].name/2)+"天";  
+                var relVal = "第"+Math.ceil(params[0].name)+"天";  
                 for (var i = 0, l = params.length; i < l; i++) {  
                     relVal += '<div><div style="margin-right:10px;display:inline-block;margin-left:5px;border-radius:6px;width:6px;height:6px;background-color:'+params[i].color+';"></div>' + params[i].seriesName+' : ¥' + params[i].value + "万元"+'</div>';
                 }  
@@ -947,9 +947,9 @@ const allChartOption = (data) => {
                 interval:800,
                 color: '#51596D',
                 fontFamily:'Microsoft YaHei',
-                formatter: function (value, index) {
-                    return Math.ceil(value/2);
-                }
+                // formatter: function (value, index) {
+                //     return Math.ceil(value/2);
+                // }
             }
         },
         yAxis: {
