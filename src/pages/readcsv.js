@@ -657,16 +657,16 @@ export default function() {
                             <ul>
                                 <li> 运行时长(天) </li>
                                 <li className='title2'>
-                                    {nowIndex ? ((nowIndex-COMMRUNSTEP) + 1)/2 : 4000}
+                                    {nowIndex ? ((nowIndex-COMMRUNSTEP) + 1) : 4000}
                                 </li>
                                 <li className='title2'>
-                                    {nowIndex ? ((nowIndex-COMMRUNSTEP) + 1)/2 : 4000}
+                                    {nowIndex ? ((nowIndex-COMMRUNSTEP) + 1) : 4000}
                                 </li>
                                 <li className='title2'>
-                                    {nowIndex ? ((nowIndex-COMMRUNSTEP) + 1)/2 : 4000}
+                                    {nowIndex ? ((nowIndex-COMMRUNSTEP) + 1) : 4000}
                                 </li>
                                 <li className='title2'>
-                                    {nowIndex ? ((nowIndex-COMMRUNSTEP) + 1)/2 : 4000}
+                                    {nowIndex ? ((nowIndex-COMMRUNSTEP) + 1) : 4000}
                                 </li>
                             </ul>
                         </div>
