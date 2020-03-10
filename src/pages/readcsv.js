@@ -325,7 +325,7 @@ export default function() {
                                                     <div className='small-charts-right hasbg' style={{paddingRight:10}}>
                                                         <div id={'oneLearnChart'+index} style={{width:128,height:10}}></div>
                                                     </div>
-                                                    <div className='small-charts-left' style={{color:'#8C96AA !important',transform:'scale(0.9)',width:'auto',textAlign:'right',marginRight:10}}>{nowIndex ? ((nowIndex-COMMRUNSTEP)+1)/2 : 4000}(d)</div>
+                                                    <div className='small-charts-left' style={{color:'#8C96AA !important',transform:'scale(0.9)',width:'auto',textAlign:'right',marginRight:10}}>{nowIndex ? ((nowIndex-COMMRUNSTEP)+1) : 4000}(d)</div>
                                                 </div>
                                             </Col>
                                             <Col span={12} className='item-wrap-right' >
@@ -341,7 +341,7 @@ export default function() {
                                                     <div className='small-charts-right hasbg' style={{paddingRight:10}}>
                                                         <div id={'oneLocalChart'+index} style={{width:144,height:10}}></div>
                                                     </div>
-                                                    <div className='small-charts-left' style={{color:'#8C96AA !important',transform:'scale(0.9)',width:'auto',marginRight:10}}>{nowIndex ? ((nowIndex-COMMRUNSTEP)+1)/2 : 4000}(d)</div>
+                                                    <div className='small-charts-left' style={{color:'#8C96AA !important',transform:'scale(0.9)',width:'auto',marginRight:10}}>{nowIndex ? ((nowIndex-COMMRUNSTEP)+1) : 4000}(d)</div>
                                                 </div>
                                             </Col>
                                         </Row>
