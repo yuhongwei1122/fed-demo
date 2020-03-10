@@ -386,7 +386,7 @@ export default function() {
                         <div id='profitCharts' style={{height:380,width:860}}>
                             {/*  运营利润曲线 */}
                         </div>
-                        <div style={{fontSize:'12px',color:'#51596D',position:'absolute',bottom:47,right:37}}>(时间:d)</div>
+                        <div style={{fontSize:'12px',color:'#51596D',position:'absolute',bottom:30,right:37}}>(时间:d)</div>
                         <div className='bottom-desc'>
                             <div className='desc-item'>
                                 <span className='desc-item-icon'></span>
@@ -945,6 +945,7 @@ const allChartOption = (data) => {
                 show: false
             },
             axisLabel:{
+                showMaxLabel:true,
                 interval:800,
                 color: '#51596D',
                 fontFamily:'Microsoft YaHei',

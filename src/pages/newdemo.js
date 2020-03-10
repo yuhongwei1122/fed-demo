@@ -395,7 +395,7 @@ export default function() {
                         <div id='profitCharts' style={{height:380,width:860}}>
                             {/*  运营利润曲线 */}
                         </div>
-                        <div style={{fontSize:'12px',color:'#51596D',position:'absolute',bottom:47,right:37}}>(时间:d)</div>
+                        <div style={{fontSize:'12px',color:'#51596D',position:'absolute',bottom:30,right:37}}>(时间:d)</div>
                         <div className='bottom-desc'>
                             <div className='desc-item'>
                                 <span className='desc-item-icon'></span>
@@ -750,7 +750,7 @@ export default function() {
                                                     <div className='small-charts-right hasbg' style={{paddingRight:10}}>
                                                         <div id='oneModalChart0' style={{width:200,height:10}}></div>
                                                     </div>
-                                                    <div className='small-charts-left' style={{color:'#8C96AA !important',transform:'scale(0.9)',width:'auto',textAlign:'right'}}>{nowIndex ? ((nowIndex-COMMRUNSTEP)+1)/2 : 4000}(d)</div>
+                                                    <div className='small-charts-left' style={{color:'#8C96AA !important',transform:'scale(0.9)',width:'auto',textAlign:'right'}}>{nowIndex ? ((nowIndex-COMMRUNSTEP)+1) : 4000}(d)</div>
                                                 </div>
                                             </Col>
                                             <Col style={{paddingLeft:40}} span={12} className='item-wrap-right' >
@@ -766,7 +766,7 @@ export default function() {
                                                     <div className='small-charts-right hasbg' style={{paddingRight:10}}>
                                                         <div id='oneModalChart1' style={{width:200,height:10}}></div>
                                                     </div>
-                                                    <div className='small-charts-left' style={{color:'#8C96AA !important',transform:'scale(0.9)',width:'auto'}}>{nowIndex ? ((nowIndex-COMMRUNSTEP)+1)/2 : 4000}(d)</div>
+                                                    <div className='small-charts-left' style={{color:'#8C96AA !important',transform:'scale(0.9)',width:'auto'}}>{nowIndex ? ((nowIndex-COMMRUNSTEP)+1) : 4000}(d)</div>
                                                 </div>
                                             </Col>
                                         </Row>
@@ -784,7 +784,7 @@ export default function() {
                                                     <div className='small-charts-right hasbg' style={{paddingRight:10}}>
                                                         <div id='oneModalChart2' style={{width:200,height:10}}></div>
                                                     </div>
-                                                    <div className='small-charts-left' style={{color:'#8C96AA !important',transform:'scale(0.9)',width:'auto',textAlign:'right'}}>{nowIndex ? ((nowIndex-COMMRUNSTEP)+1)/2 : 4000}(d)</div>
+                                                    <div className='small-charts-left' style={{color:'#8C96AA !important',transform:'scale(0.9)',width:'auto',textAlign:'right'}}>{nowIndex ? ((nowIndex-COMMRUNSTEP)+1) : 4000}(d)</div>
                                                 </div>
                                             </Col>
                                             <Col style={{paddingLeft:40}} span={12} className='item-wrap-right' >
@@ -800,7 +800,7 @@ export default function() {
                                                     <div className='small-charts-right hasbg' style={{paddingRight:10}}>
                                                         <div id='oneModalChart3' style={{width:200,height:10}}></div>
                                                     </div>
-                                                    <div className='small-charts-left' style={{color:'#8C96AA !important',transform:'scale(0.9)',width:'auto'}}>{nowIndex ? ((nowIndex-COMMRUNSTEP)+1)/2 : 4000}(d)</div>
+                                                    <div className='small-charts-left' style={{color:'#8C96AA !important',transform:'scale(0.9)',width:'auto'}}>{nowIndex ? ((nowIndex-COMMRUNSTEP)+1) : 4000}(d)</div>
                                                 </div>
                                             </Col>
                                         </Row>
@@ -977,6 +977,7 @@ const allChartOption = (data) => {
             },
             axisLabel:{
                 interval:800,
+                showMaxLabel:true,
                 color: '#51596D',
                 fontFamily:'Microsoft YaHei',
                 // formatter: function (value, index) {
